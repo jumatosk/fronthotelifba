@@ -1,0 +1,54 @@
+.container-custom-register {
+    padding: 20px !important;
+    background-color: #FFF;
+}
+
+.card-container-register {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card-register {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.input-custom-to-date {
+    display: block;
+    width: 100%;
+    height: calc(1.5em + .75rem + 2px);
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    cursor: pointer;
+}
+
+.title-register-client {
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--title-page);
+    padding: 20px 0px;
+}
+
+.field-error {
+    color: #fc4f4f;
+    font-weight: 600;
+}
+
+.login-btn {
+    position: absolute !important;
+    top: 0 !important;
+    right: 0 !important;
+}

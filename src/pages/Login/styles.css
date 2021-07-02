@@ -1,0 +1,30 @@
+.container-custom-login {
+    width: 40vw;
+    padding: 20px !important;
+    background-color: #FFF;
+}
+
+.card-login {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.button-custom {
+    background-color: var(--button-color);
+    border-color: transparent;
+}
+
+.login-title{
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--title-page);
+    padding: 20px 0px;
+}
+
+.login-btn {
+    position: absolute !important;
+    top: 0 !important;
+    right: 0 !important;
+}

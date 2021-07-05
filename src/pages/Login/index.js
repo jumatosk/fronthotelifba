@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState, Fragment, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { Container, Form, Col, Button, Spinner } from 'react-bootstrap';
@@ -6,34 +6,30 @@ import { Layout, Menu } from 'antd';
 import Footer from '../../components/Footer';
 import { toast } from 'react-toastify';
 import './styles.css';
+import { Context } from '../../context/authContext';
 import api from '../../services/api';
 
 function Login() {
+    const { handleLogin } = useContext(Context);
     const history = useHistory();
     const [loading, setLoading] = useState(false);
     const { Header, Content } = Layout;
 
     const { register, handleSubmit } = useForm()
 
-    const onSubmit = async (data) => {
-        try {
-            const { status } = await api.post("rest-auth/login/", {
-                username: data.username,
-                email: data.email,
-                password: data.password
-            });
-
-            if(status === 200) {
-                history.push('/');
-            }
-        } catch (error) {
-            toast.error("Erro ao fazer login, tente novamente!");
-        }
+    const onSubmit = (data) => {
         setLoading(true);
-        console.log(data);
-        setTimeout(() => {
-            setLoading(false);
-        }, 2000)
+
+        const response = handleLogin(data);
+
+        response.then(res => {
+            if (res && res.status === 400) {
+                toast.error("Credenciais informadas estão incorretas");
+            } else {
+                history.replace("/");
+            }
+        })
+        setLoading(false);
     }
 
     return (
@@ -57,7 +53,7 @@ function Login() {
                                 <Form.Row>
                                     <Form.Group as={Col}>
                                         <Form.Label>
-                                            Username
+                                            Nome
                                         </Form.Label>
                                         <Form.Control
                                             {...register("username")}

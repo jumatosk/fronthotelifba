@@ -1,8 +1,8 @@
 import React from 'react';
-import { Route, Switch, Redirect, BrowserRouter } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import Register from '../pages/Register';
-import Login from '../pages/Login';
-import Home from '../pages/Home';
+import { Context } from '../context/authContext';
+import Root from './routes';
 
 const CustomRoute = ({ isPrivate, ...rest }) => {
     if (isPrivate) {
@@ -13,14 +13,9 @@ const CustomRoute = ({ isPrivate, ...rest }) => {
 }
 
 const Routes = () => (
-    <BrowserRouter>
-        <Switch>
-            <CustomRoute exact path='/' component={Home} />
-            <CustomRoute path='/login' component={Login} />
-            <CustomRoute path='/cadastro' component={Register} />
-            {/* <CustomRoute isPrivate path='/' component={SignedIn} /> */}
-        </Switch>
-    </BrowserRouter>
+    <Switch>
+        <CustomRoute path='/' component={Root} />
+    </Switch>
 )
 
 export default Routes;

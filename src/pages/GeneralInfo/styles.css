@@ -8,14 +8,32 @@
 .centered-content {
     width: 100%;
     height: 75vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: rosybrown;
 }
 
 .no-info-content {
     font-size: 24px;
     font-weight: 600;
+    color: var(--title-page);
+}
+
+.spinner-modal {
+    display: flex;
+    justify-content: center;
+}
+
+.item {
+    text-align: center;
+    cursor: pointer;
+}
+
+.info {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.info p {
+    font-size: 16px;
+    text-align: justify;
     color: var(--title-page);
 }

@@ -1,35 +1,58 @@
 import React, { useEffect, useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { Form, Col, Button, Spinner } from 'react-bootstrap';
-import DatePicker from 'react-datepicker';
+import DatePicker, { registerLocale } from 'react-datepicker';
+import ptBR from 'date-fns/locale/pt-BR';
+import moment from 'moment';
 import { ErrorMessage } from '@hookform/error-message';
 import { Layout } from 'antd';
 import { toast } from 'react-toastify';
 import { STRINGS } from '../../util/strings';
 import api from '../../services/api';
 
+registerLocale('pt-BR', ptBR);
+
 function EditProfile({ userId }) {
+    const user = JSON.parse(localStorage.getItem('user'));
     const { Content, } = Layout;
     const [loading, setLoading] = useState(false);
 
     const { control, register, reset, handleSubmit, formState: { errors } } = useForm();
-    useEffect(() => {
 
-    }, []);
+    useEffect(() => {
+        const getUserData = async () => {
+            try {
+                const { data } = await api.get(`clientes/${user.id}/`);
+
+                reset({
+                    name: data.nome,
+                    passport: data.passaporte,
+                    identity: data.identidade,
+                    nacionality: data.nacionalidade,
+                    birthDate: moment(data.data_nascimento).toDate(),
+                    phone: data.telefone,
+                    address: data.endereço,
+                    email: data.email
+                })
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        getUserData();
+    }, [reset, user.id]);
 
     const onSubmit = async (formData) => {
         try {
-            const { status } = await api.put("", {
+            const { status } = await api.put(`clientes/${user.id}/`, {
                 id: 18,
-                nome: "novoromildo",
-                passaporte: "333333",
-                identidade: "11111111",
-                data_identidade: "2021-07-02",
-                nacionalidade: "Portugues",
-                data_nascimento: "2021-07-02",
-                telefone: "71993589437",
-                endereço: "rua abc",
-                email: "jumatosk@gmail.com"
+                nome: formData.name,
+                passaporte: formData.passport,
+                identidade: formData.identity,
+                nacionalidade: formData.nacionality,
+                data_nascimento: expectedDate(formData.birthDate),
+                telefone: formData.phone,
+                endereço: formData.address,
+                email: formData.email
             })
 
             if (status === 200) {
@@ -38,6 +61,10 @@ function EditProfile({ userId }) {
         } catch (error) {
             toast.error("Erro ao atualizar o perfil");
         }
+    }
+
+    const expectedDate = (date) => {
+        return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
     }
 
     return (

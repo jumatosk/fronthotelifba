@@ -52,3 +52,8 @@
     top: 0 !important;
     right: 0 !important;
 }
+
+.button-custom {
+    background-color: var(--button-color);
+    border-color: transparent;
+}

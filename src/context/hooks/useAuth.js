@@ -11,8 +11,10 @@ export default function useAuth() {
 
     useEffect(() => {
         const token = localStorage.getItem('token');
+        const user = localStorage.getItem('user');
 
-        if (token) {
+        if (token && user) {
+            setUser(JSON.parse(user));
             setIsLogged(true);
         }
         setLoading(false);
@@ -22,22 +24,42 @@ export default function useAuth() {
         let response = null;
 
         try {
-            const { data } = await api.post('rest-auth/login/', {
+            const { data, status } = await api.post('rest-auth/login/', {
                 username: username,
                 email: email,
                 password: password,
             })
 
+            if (status === 200) {
+                getUser(username);
+            }
+
             localStorage.setItem('token', data.key);
-            
-            api.defaults.headers.Authorization = `Token ${data.key}`
+
+            api.defaults.headers = {
+                Authorization: ` Token ${data.key}`
+            }
 
             setIsLogged(true);
         } catch (error) {
             response = error.response;
         }
-
         return response;
+    }
+
+    const getUser = async (username) => {
+        try {
+            const { data } = await api.get("/clientes/");
+
+            data.map(user => {
+                if (user.nome === username) {
+                    setUser(user);
+                    localStorage.setItem('user', JSON.stringify(user));
+                }
+            })
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     const handleLogout = () => {

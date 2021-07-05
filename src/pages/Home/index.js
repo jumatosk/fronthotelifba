@@ -6,7 +6,8 @@ import Info from '../GeneralInfo';
 import EditProfile from '../EditProfile';
 import './styles.css';
 import { Context } from '../../context/authContext';
-import { Button } from 'react-bootstrap';
+import { CarryOutTwoTone, EditTwoTone, InfoCircleTwoTone, HomeOutlined, LogoutOutlined, LoginOutlined, IdcardOutlined } from '@ant-design/icons';
+import MyReservations from '../../components/MyReservations';
 
 function Home() {
     const { isLogged, handleLogout } = useContext(Context);
@@ -18,19 +19,19 @@ function Home() {
         <Layout className="layout-custom">
             <Header>
                 <Menu theme="dark" mode="horizontal">
-                    <Menu.Item key="1">
+                    <Menu.Item icon={<HomeOutlined style={{ fontSize: 20 }} />} key="1">
                         <Link to="/">
                             Início
                         </Link>
                     </Menu.Item>
                     {!isLogged &&
                         <>
-                            <Menu.Item className="login-btn">
+                            <Menu.Item icon={<LoginOutlined style={{ fontSize: 20 }}/>} className="login-btn">
                                 <Link to="/login">
                                     Entrar
                                 </Link>
                             </Menu.Item>
-                            <Menu.Item className="register-btn">
+                            <Menu.Item icon={<IdcardOutlined style={{ fontSize: 20 }}/>} className="register-btn">
                                 <Link to="/cadastro">
                                     Cadastrar-se
                                 </Link>
@@ -38,7 +39,7 @@ function Home() {
                         </>
                     }
                     {isLogged &&
-                        <Menu.Item className="login-btn">
+                        <Menu.Item icon={<LogoutOutlined style={{ fontSize: 20 }} />} className="login-btn">
                             <Link replace="/" onClick={() => handleLogout()}>
                                 Sair
                             </Link>
@@ -65,19 +66,19 @@ function Home() {
                             }
                         }}
                     >
-                        <Menu.Item key="1" onClick={() => setInfo(true)}>
+                        <Menu.Item icon={<InfoCircleTwoTone />} key="1" onClick={() => setInfo(true)}>
                             <Link to="/">
                                 Consultar empresas
                             </Link>
                         </Menu.Item>
                         {isLogged && (
                             <>
-                                <Menu.Item key="2">
+                                <Menu.Item icon={<CarryOutTwoTone />} key="2">
                                     <Link to="/">
                                         Minhas reservas
                                     </Link>
                                 </Menu.Item>
-                                <Menu.Item key="3">
+                                <Menu.Item icon={<EditTwoTone />} key="3">
                                     <Link to="/">
                                         Editar perfil
                                     </Link>
@@ -98,7 +99,7 @@ function Home() {
                     > {menuKey === 1 ? (
                         <Info />
                     ) : menuKey === 2 ? (
-                        <p>teste</p>
+                        <MyReservations />
                     ) : (
                         <EditProfile />
                     )}

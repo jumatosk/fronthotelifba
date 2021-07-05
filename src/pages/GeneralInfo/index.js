@@ -49,6 +49,7 @@ function GeneralInfo() {
     }
 
     const getServices = async (id) => {
+        setServices(null);
         try {
             const { data } = await api.get(`/servicos/${id}/`);
             setServices(data);
@@ -58,6 +59,7 @@ function GeneralInfo() {
     }
 
     const getPrices = async (id) => {
+        setPrices(null);
         try {
             const { data } = await api.get(`/precos/${id}/`);
             setPrices(data);
@@ -72,11 +74,11 @@ function GeneralInfo() {
                 <Content>
                     {companies.length ? (
                         <div className="centered-content">
-                            <ListGroup>
+                            <ListGroup variant="flush">
                                 {companies.map(company => (
                                     <ListGroup.Item
                                         className="item"
-
+                                        style={{fontSize: 20}}
                                         onClick={() => {
                                             getCompanyInfo(company.id);
                                             setShowModal(true);

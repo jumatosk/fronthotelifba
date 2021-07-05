@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { Container, Form, Col, Button, Spinner } from 'react-bootstrap';
 import { Layout, Menu } from 'antd';
+import { HomeOutlined, IdcardOutlined, LoginOutlined } from '@ant-design/icons';
 import Footer from '../../components/Footer';
 import { toast } from 'react-toastify';
 import './styles.css';
@@ -36,10 +37,10 @@ function Login() {
         <Fragment>
             <Header>
                 <Menu theme="dark" mode="horizontal">
-                    <Menu.Item key="1" onClick={() => history.replace('/')}>
+                    <Menu.Item icon={<HomeOutlined style={{ fontSize: 20 }}/>} key="1" onClick={() => history.replace('/')}>
                         Início
                     </Menu.Item>
-                    <Menu.Item className="login-btn" key="1" onClick={() => history.replace('/cadastro')}>
+                    <Menu.Item icon={<IdcardOutlined style={{ fontSize: 24 }}/>} className="login-btn" key="1" onClick={() => history.replace('/cadastro')}>
                         Cadastrar-se
                     </Menu.Item>
                 </Menu>
@@ -83,8 +84,8 @@ function Login() {
                                 </Form.Row>
                                 <Form.Row>
                                     <Form.Group as={Col}>
-                                        <Button type="submit" className="button-custom" variant="secondary" block>
-                                            {loading ? <Spinner size="sm" animation="border" /> : "Entrar"}
+                                        <Button type="submit" block className="button-custom" variant="secondary">
+                                            {loading ? <Spinner size="sm" animation="border" /> : <LoginOutlined style={{fontSize: 18}}/>}
                                         </Button>
                                     </Form.Group>
                                 </Form.Row>

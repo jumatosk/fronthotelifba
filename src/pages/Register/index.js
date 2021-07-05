@@ -2,6 +2,7 @@ import React, { useState, Fragment } from 'react';
 import { useHistory, Link } from 'react-router-dom';
 import { Container, Form, Col, Button, Spinner } from 'react-bootstrap';
 import { Layout, Menu } from 'antd';
+import { HomeOutlined, LoginOutlined } from '@ant-design/icons';
 import { toast } from 'react-toastify';
 import DatePicker, { registerLocale } from 'react-datepicker';
 import ptBR from 'date-fns/locale/pt-BR';
@@ -57,10 +58,10 @@ function RegisterClient() {
         <Fragment>
             <Header>
                 <Menu theme="dark" mode="horizontal">
-                    <Menu.Item key="1" onClick={() => history.replace('/')}>
+                    <Menu.Item icon={<HomeOutlined style={{ fontSize: 20 }}/>} key="1" onClick={() => history.replace('/')}>
                         Início
                     </Menu.Item>
-                    <Menu.Item className="login-btn">
+                    <Menu.Item icon={<LoginOutlined style={{ fontSize: 20 }}/>} className="login-btn">
                         <Link to="/login">
                             Entrar
                         </Link>
@@ -164,27 +165,6 @@ function RegisterClient() {
                                                 <ErrorMessage errors={errors} name="phone" />
                                             </span>
                                         </Form.Group>
-                                        <Form.Group as={Col} md={2}>
-                                            <Form.Label>
-                                                Data da identidade
-                                            </Form.Label>
-                                            <br />
-                                            <Controller
-                                                control={control}
-                                                name="identityDate"
-                                                render={({ field }) => (
-                                                    <DatePicker
-                                                        selected={field.value}
-                                                        onChange={(e) => field.onChange(e)}
-                                                        className="input-custom-to-date"
-                                                        locale="pt-BR"
-                                                        dateFormat="dd/MM/yyyy"
-                                                        placeholderText="Selecionar a data"
-                                                        maxDate={new Date()}
-                                                    />
-                                                )}
-                                            />
-                                        </Form.Group>
                                     </Form.Row>
                                     <Form.Row>
                                         <Form.Group as={Col}>
@@ -201,17 +181,17 @@ function RegisterClient() {
                                                 E-mail
                                             </Form.Label>
                                             <Form.Control
-                                                {...register("email")}
+                                                {...register("email", {required: STRINGS.REQUIRED_FIELD})}
                                                 placeholder="Informe o email do cliente"
                                             />
+                                            <span className="field-error">
+                                                <ErrorMessage errors={errors} name="email" />
+                                            </span>
                                         </Form.Group>
                                     </Form.Row>
                                     <div className="container-btns">
-                                        <Button variant="secondary" type="button" onClick={() => { }}>
-                                            Voltar
-                                        </Button>
-                                        <Button type="submit">
-                                            {loading ? <Spinner size="sm" animation="border" /> : "Registrar"}
+                                        <Button block className="button-custom" type="submit">
+                                            {loading ? <Spinner size="sm" animation="border" /> : "Cadastrar"}
                                         </Button>
                                     </div>
                                 </Form>

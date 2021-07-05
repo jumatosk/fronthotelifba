@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import Modal from './ModalCompanies';
 import { toast } from 'react-toastify';
 import DatePicker from 'react-datepicker';
@@ -10,38 +9,38 @@ import { STRINGS } from '../util/strings';
 import api, { baseURL } from '../services/api';
 
 function Reservation({ companyId, onHide, show }) {
-    const history = useHistory();
-    const [services, setServices] = useState();
+    const user = JSON.parse(localStorage.getItem('user'));
+    const [services, setServices] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [hideModal, setHideModal] = useState(false);
     const { register, handleSubmit, formState: { errors }, control } = useForm();
-    console.log(companyId)
 
     useEffect(() => {
-        const token = localStorage.getItem('token');
-        const getUser = async() => {
-            console.log(token);
-            const response = (await api.get("/rest-auth/user/"))
-            console.log(response)
+        const getServices = async () => {
+            try {
+                const { data } = await api.get("/servicos/");
+                setServices(data);
+            } catch (error) {
+                console.log(error);
+            }
         }
-        getUser()
+        getServices();
     }, [])
 
     const onSubmit = async (formData) => {
         setLoading(true);
         try {
-            const { data, status } = await api.post("/reservas/", {
+            const { status } = await api.post("/reservas/", {
+                id: user.id,
                 empresa: `${baseURL}empresas/${companyId}/`,
-                cliente: `${baseURL}clientes/${18}/`,
+                cliente: `${baseURL}clientes/${user.id}/`,
                 n_pessoas: formData.numberOfPeople,
                 data_entrada: expectedDate(formData.entryDate),
                 data_saida: expectedDate(formData.exitDate),
-                servico: `http://127.0.0.1:8000/servicos/${1}/`,
+                servico: `${baseURL}servicos/${1}/`,
                 cartao_credito: formData.creditCard
             })
             if (status === 201) {
                 toast.success("Reserva realizada com sucesso!");
-                history.push("/")
             }
         } catch (error) {
             console.log(error);
@@ -128,6 +127,33 @@ function Reservation({ companyId, onHide, show }) {
                 <Form.Row>
                     <Form.Group as={Col}>
                         <Form.Label>
+                            Serviços
+                        </Form.Label>
+                        <Form.Control
+                            {...register("services", { required: STRINGS.REQUIRED_FIELD })}
+                            as="select"
+                        >
+                            <Form.Control
+                                as="option"
+                                label="Escolha uma das opções"
+                                vaue=""
+                            />
+                            {services.map((service, index) => (
+                                <Form.Control
+                                    as="option"
+                                    value={index}
+                                    label={service}
+                                />
+                            ))}
+                        </Form.Control>
+                        <span className="field-error">
+                            <ErrorMessage errors={errors} name="services" />
+                        </span>
+                    </Form.Group>
+                </Form.Row>
+                <Form.Row>
+                    <Form.Group as={Col}>
+                        <Form.Label>
                             Nº do cartão de crédito
                         </Form.Label>
                         <Form.Control
@@ -142,7 +168,7 @@ function Reservation({ companyId, onHide, show }) {
                     </Form.Group>
                 </Form.Row>
                 <Button block type="submit">
-                    Reservar
+                    {loading ? <Spinner animation/> : "Reservar"}
                 </Button>
             </Form>
         </Modal>

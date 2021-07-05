@@ -24,6 +24,8 @@
 .item {
     text-align: center;
     cursor: pointer;
+    color: var(--title-page);
+    font-weight: 700;
 }
 
 .info {

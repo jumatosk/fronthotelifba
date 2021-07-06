@@ -1,3 +1,30 @@
 .footer {
     text-align: center;
 }
+
+.empty-reservation {
+    text-align: center;
+    font-size: 24px;
+    color: var(--title-page);
+}
+
+.reservations-container {
+    height: 200px;
+    width: 230px;
+    border-radius: 10px;
+    background-color: #eee;
+    padding: 5px;
+    margin: 0 15px 15px 0;
+}
+
+.reservations-container p {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--title-page);
+}
+
+.container-custom {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}

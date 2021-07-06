@@ -168,7 +168,7 @@ function Reservation({ companyId, onHide, show }) {
                     </Form.Group>
                 </Form.Row>
                 <Button block type="submit">
-                    {loading ? <Spinner animation/> : "Reservar"}
+                    {loading ? <Spinner animation="border"/> : "Reservar"}
                 </Button>
             </Form>
         </Modal>

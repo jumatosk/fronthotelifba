@@ -12,7 +12,7 @@ function App() {
     <AuthProvider>
       <CookiesProvider>
         <ToastContainer autoClose={3000} />
-        <Router history={history}>
+        <Router history={history}> 
           <Routes />
         </Router>
       </CookiesProvider>

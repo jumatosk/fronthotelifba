@@ -8,6 +8,7 @@ import Reservation from '../../components/Reservation';
 import api from '../../services/api';
 import formatValue from '../../functions/formatReal';
 import './styles.css';
+import axios from 'axios';
 
 function GeneralInfo() {
     const { isLogged } = useContext(Context);
@@ -48,20 +49,18 @@ function GeneralInfo() {
         setLoadingCompanyInfo(false);
     }
 
-    const getServices = async (id) => {
-        setServices(null);
+    const getServices = async (url) => {
         try {
-            const { data } = await api.get(`/servicos/${id}/`);
+            const { data } = await axios.get(url);
             setServices(data);
         } catch (error) {
             console.log(error);
         }
     }
 
-    const getPrices = async (id) => {
-        setPrices(null);
+    const getPrices = async (url) => {
         try {
-            const { data } = await api.get(`/precos/${id}/`);
+            const { data } = await axios.get(url);
             setPrices(data);
         } catch (error) {
             console.log(error);
@@ -82,6 +81,8 @@ function GeneralInfo() {
                                         onClick={() => {
                                             getCompanyInfo(company.id);
                                             setShowModal(true);
+                                            setPrices(null);
+                                            setServices(null);
                                         }}
                                     >
                                         {company.nome}
@@ -124,7 +125,7 @@ function GeneralInfo() {
                                         <p>Categoria: {companyInfo.categoria}</p>
                                         <p>E-mail: {companyInfo.email}</p>
                                     </Col>
-                                    <Button block variant="success" onClick={() => getServices(companyInfo.id)}>
+                                    <Button block variant="success" onClick={() => getServices(companyInfo.servico)}>
                                         Consultar serviços
                                     </Button>
                                     {services && (
@@ -133,7 +134,7 @@ function GeneralInfo() {
                                             <p>{services.almoço ? "Almoço" : ""}</p>
                                         </Col>
                                     )}
-                                    <Button block variant="info" onClick={() => getPrices(companyInfo.id)}>
+                                    <Button block variant="info" onClick={() => getPrices(companyInfo.preco)}>
                                         Consultar Preços
                                     </Button>
                                     {prices && (
